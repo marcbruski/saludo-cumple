@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Cumpleaños Ernesto Abud</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4, #45b7d1);
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
+            padding: 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: bounce 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-10px); }
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .form-section, .messages-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-section h2, .messages-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #ff6b6b;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .messages-list {
+            max-height: 600px;
+            overflow-y: auto;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .message-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .message-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .message-author {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .message-date {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .message-content {
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 15px;
+        }
+
+        .btn-edit {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+        }
+
+        .btn-delete {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .stats {
+            background: linear-gradient(45deg, #6bcf7f, #4ecdc4);
+            color: white;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 Feliz Cumpleaños para Ernesto Abud 🎂</h1>
+            <p>Deja tu saludo especial para este día tan importante</p>
+        </div>
+
+        <div class="stats">
+            <h3>📊 Total de Saludos: <span id="totalMessages">0</span></h3>
+        </div>
+
+        <div class="main-content">
+            <div class="form-section">
+                <h2>✍️ Deja tu Saludo</h2>
+                <form id="greetingForm">
+                    <div class="form-group">
+                        <label for="senderName">Tu Nombre:</label>
+                        <input type="text" id="senderName" required placeholder="Escribe tu nombre...">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Tu Mensaje:</label>
+                        <textarea id="message" required placeholder="Escribe tu saludo de cumpleaños..."></textarea>
+                    </div>
+                    <button type="submit" class="btn">🎁 Enviar Saludo</button>
+                </form>
+            </div>
+
+            <div class="messages-section">
+                <h2>💌 Saludos Recibidos</h2>
+                <div id="messagesList" class="messages-list">
+                    <p style="text-align: center; color: #666; margin-top: 50px;">
+                        Aún no hay saludos. ¡Sé el primero en felicitar a Ernesto! 🎈
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar mensajes -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Editar Saludo</h2>
+            <form id="editForm">
+                <div class="form-group">
+                    <label for="editName">Nombre:</label>
+                    <input type="text" id="editName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editMessage">Mensaje:</label>
+                    <textarea id="editMessage" required></textarea>
+                </div>
+                <button type="submit" class="btn">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration"></div>
+
+    <script>
+        class BirthdayGreetingsApp {
+            constructor() {
+                this.messages = [];
+                this.currentEditId = null;
+                this.messageIdCounter = 1;
+                this.init();
+            }
+
+            init() {
+                this.loadMessages();
+                this.bindEvents();
+                this.updateStats();
+            }
+
+            bindEvents() {
+                // Formulario principal
+                document.getElementById('greetingForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.addMessage();
+                });
+
+                // Formulario de edición
+                document.getElementById('editForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.updateMessage();
+                });
+
+                // Modal
+                document.querySelector('.close').addEventListener('click', () => {
+                    this.closeModal();
+                });
+
+                window.addEventListener('click', (e) => {
+                    if (e.target === document.getElementById('editModal')) {
+                        this.closeModal();
+                    }
+                });
+            }
+
+            addMessage() {
+                const name = document.getElementById('senderName').value.trim();
+                const messageText = document.getElementById('message').value.trim();
+
+                if (!name || !messageText) {
+                    alert('Por favor, completa todos los campos');
+                    return;
+                }
+
+                const newMessage = {
+                    id: this.messageIdCounter++,
+                    name: name,
+                    message: messageText,
+                    timestamp: new Date(),
+                    dateString: new Date().toLocaleString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })
+                };
+
+                this.messages.unshift(newMessage);
+                this.saveMessages();
+                this.renderMessages();
+                this.updateStats();
+                
+                // Limpiar formulario
+                document.getElementById('greetingForm').reset();
+                
+                // Efecto de celebración
+                this.celebrate();
+                
+                // Mensaje de confirmación
+                this.showSuccessMessage();
+            }
+
+            renderMessages() {
+                const messagesList = document.getElementById('messagesList');
+                
+                if (this.messages.length === 0) {
+                    messagesList.innerHTML = `
+                        <p style="text-align: center; color: #666; margin-top: 50px;">
+                            Aún no hay saludos. ¡Sé el primero en felicitar a Ernesto! 🎈
+                        </p>
+                    `;
+                    return;
+                }
+
+                messagesList.innerHTML = this.messages.map(msg => `
+                    <div class="message-card">
+                        <div class="message-header">
+                            <div class="message-author">👤 ${this.escapeHtml(msg.name)}</div>
+                            <div class="message-date">📅 ${msg.dateString}</div>
+                        </div>
+                        <div class="message-content">💬 ${this.escapeHtml(msg.message)}</div>
+                        <div class="message-actions">
+                            <button class="btn btn-small btn-edit" onclick="app.editMessage(${msg.id})">
+                                ✏️ Editar
+                            </button>
+                            <button class="btn btn-small btn-delete" onclick="app.deleteMessage(${msg.id})">
+                                🗑️ Eliminar
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            editMessage(id) {
+                const message = this.messages.find(msg => msg.id === id);
+                if (!message) return;
+
+                this.currentEditId = id;
+                document.getElementById('editName').value = message.name;
+                document.getElementById('editMessage').value = message.message;
+                document.getElementById('editModal').style.display = 'block';
+            }
+
+            updateMessage() {
+                if (!this.currentEditId) return;
+
+                const name = document.getElementById('editName').value.trim();
+                const messageText = document.getElementById('editMessage').value.trim();
+
+                if (!name || !messageText) {
+                    alert('Por favor, completa todos los campos');
+                    return;
+                }
+
+                const messageIndex = this.messages.findIndex(msg => msg.id === this.currentEditId);
+                if (messageIndex !== -1) {
+                    this.messages[messageIndex].name = name;
+                    this.messages[messageIndex].message = messageText;
+                    this.messages[messageIndex].dateString = new Date().toLocaleString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }) + ' (editado)';
+
+                    this.saveMessages();
+                    this.renderMessages();
+                    this.closeModal();
+                    
+                    alert('¡Saludo actualizado correctamente! ✅');
+                }
+            }
+
+            deleteMessage(id) {
+                if (confirm('¿Estás seguro de que quieres eliminar este saludo?')) {
+                    this.messages = this.messages.filter(msg => msg.id !== id);
+                    this.saveMessages();
+                    this.renderMessages();
+                    this.updateStats();
+                    alert('Saludo eliminado correctamente ✅');
+                }
+            }
+
+            closeModal() {
+                document.getElementById('editModal').style.display = 'none';
+                this.currentEditId = null;
+            }
+
+            celebrate() {
+                const celebration = document.getElementById('celebration');
+                const colors = ['#ff6b6b', '#ffd93d', '#6bcf7f', '#4ecdc4', '#45b7d1', '#ff8e53'];
+                
+                // Crear confetti
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.className = 'confetti';
+                        confetti.style.left = Math.random() * 100 + '%';
+                        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                        confetti.style.animationDelay = Math.random() * 2 + 's';
+                        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                        
+                        celebration.appendChild(confetti);
+                        
+                        setTimeout(() => {
+                            confetti.remove();
+                        }, 4000);
+                    }, i * 50);
+                }
+
+                // Efecto de sonido simulado con vibración visual
+                document.body.style.animation = 'none';
+                document.body.offsetHeight; // Trigger reflow
+                document.body.style.animation = 'celebration 0.5s ease-in-out';
+                
+                setTimeout(() => {
+                    document.body.style.animation = '';
+                }, 500);
+            }
+
+            showSuccessMessage() {
+                const successDiv = document.createElement('div');
+                successDiv.innerHTML = '🎉 ¡Saludo enviado correctamente! 🎂';
+                successDiv.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(45deg, #6bcf7f, #4ecdc4);
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    font-weight: bold;
+                    z-index: 1002;
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                    animation: slideIn 0.5s ease-out;
+                `;
+
+                document.body.appendChild(successDiv);
+
+                setTimeout(() => {
+                    successDiv.style.animation = 'slideOut 0.5s ease-in forwards';
+                    setTimeout(() => successDiv.remove(), 500);
+                }, 3000);
+            }
+
+            updateStats() {
+                document.getElementById('totalMessages').textContent = this.messages.length;
+            }
+
+            saveMessages() {
+                // En un entorno real, aquí se guardarían en una base de datos
+                // Por ahora los mantenemos en memoria durante la sesión
+                console.log('Mensajes guardados:', this.messages);
+            }
+
+            loadMessages() {
+                // En un entorno real, aquí se cargarían desde una base de datos
+                // Por ahora iniciamos con un array vacío
+                this.renderMessages();
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+        }
+
+        // Agregar estilos de animación adicionales
+        const additionalStyles = `
+            @keyframes celebration {
+                0%, 100% { transform: scale(1); }
+                25% { transform: scale(1.02); }
+                50% { transform: scale(1.05); }
+                75% { transform: scale(1.02); }
+            }
+
+            @keyframes slideIn {
+                0% { transform: translateX(100%); opacity: 0; }
+                100% { transform: translateX(0); opacity: 1; }
+            }
+
+            @keyframes slideOut {
+                0% { transform: translateX(0); opacity: 1; }
+                100% { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+
+        const style = document.createElement('style');
+        style.textContent = additionalStyles;
+        document.head.appendChild(style);
+
+        // Inicializar la aplicación
+        const app = new BirthdayGreetingsApp();
+    </script>
+</body>
+</html>
